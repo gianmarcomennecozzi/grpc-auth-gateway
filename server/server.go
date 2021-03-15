@@ -8,7 +8,7 @@ import (
 
 	"github.com/google/uuid"
 
-	pb "github.com/gianmarcomennecozzi/grpc-auth-gateway/proto"
+	pb "github.com/gianmarcomennecozzi/grpc-auth-gateway/proto/todo"
 )
 
 type server struct {

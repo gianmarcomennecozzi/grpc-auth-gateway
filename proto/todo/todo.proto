@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+option go_package = "github.com/gianmarcomennecozzi/grpc-auth-gateway/proto;todo";
+option java_multiple_files = true;
+option java_package = "grpc-auth-gateway.todo";
+option java_outer_classname = "TodoProto";
+
+import "google/api/annotations.proto";
+
+service Todo {
+  rpc AddTodo (AddTodoRequest) returns (AddTodoResponse) {
+    option (google.api.http) = {
+      // Route to this method from POST requests to /api/v1/users
+      post: "/api/todo"
+      body: "*"
+    };
+  }
+  rpc GetTodos (Empty) returns (stream AddTodoResponse) {
+    option (google.api.http) = {
+      // Route to this method from POST requests to /api/v1/users
+      get: "/api/todos"
+    };
+  }
+}
+
+message Empty {}
+
+message AddTodoRequest {
+  string name = 1;
+}
+
+message AddTodoResponse {
+  string id = 1;
+  string name = 2;
+}

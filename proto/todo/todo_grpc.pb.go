@@ -161,5 +161,5 @@ var Todo_ServiceDesc = grpc.ServiceDesc{
 			ServerStreams: true,
 		},
 	},
-	Metadata: "proto/todo.proto",
+	Metadata: "todo/todo.proto",
 }

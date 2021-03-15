@@ -5,7 +5,8 @@ import (
 	"fmt"
 	"log"
 
-	pb "github.com/gianmarcomennecozzi/grpc-auth-gateway/proto"
+	"github.com/gianmarcomennecozzi/grpc-auth-gateway/proto/todo"
+
 	"google.golang.org/grpc"
 )
 
@@ -17,8 +18,8 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	client := pb.NewTodoClient(conn)
-	resp, err := client.AddTodo(context.Background(), &pb.AddTodoRequest{Name: "random"})
+	client := todo.NewTodoClient(conn)
+	resp, err := client.AddTodo(context.Background(), &todo.AddTodoRequest{Name: "random"})
 	if err != nil {
 		log.Fatal(err)
 	}

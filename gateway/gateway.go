@@ -6,6 +6,8 @@ import (
 	"net/http"
 	"strings"
 
+	"google.golang.org/grpc/metadata"
+
 	pb "github.com/gianmarcomennecozzi/grpc-auth-gateway/proto/todo"
 	"github.com/rs/zerolog/log"
 
@@ -13,7 +15,10 @@ import (
 	"google.golang.org/grpc"
 )
 
-const port = "8080"
+const (
+	header = "todo-grpc-gateway"
+	port   = "8080"
+)
 
 func Run(dialAddr string) error {
 
@@ -27,7 +32,12 @@ func Run(dialAddr string) error {
 		return fmt.Errorf("failed to dial server: %w", err)
 	}
 
-	gwmux := runtime.NewServeMux()
+	md := func(ctx context.Context, req *http.Request) metadata.MD {
+		h := req.Header.Get(header)
+		return metadata.New(map[string]string{"token": h})
+	}
+
+	gwmux := runtime.NewServeMux(runtime.WithMetadata(md))
 	err = pb.RegisterTodoHandler(context.Background(), gwmux, conn)
 	if err != nil {
 		return fmt.Errorf("failed to register gateway: %w", err)

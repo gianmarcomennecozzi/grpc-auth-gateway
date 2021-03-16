@@ -9,11 +9,11 @@ import (
 	"github.com/gianmarcomennecozzi/grpc-auth-gateway/proto/todo"
 
 	"github.com/gianmarcomennecozzi/grpc-auth-gateway/server"
-	"google.golang.org/grpc"
 )
 
 const (
 	endpoint = "0.0.0.0:50051"
+	secToken = "passcode"
 )
 
 func main() {
@@ -21,7 +21,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
-	s := grpc.NewServer()
+	s := server.GetServer(secToken)
 	todo.RegisterTodoServer(s, server.NewServer())
 
 	log.Printf("Serving gRPC on %s", endpoint)
